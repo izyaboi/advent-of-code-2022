@@ -14,3 +14,13 @@ fun readInput(name: String) = File("src", "$name.txt")
 fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray()))
     .toString(16)
     .padStart(32, '0')
+
+/**
+ * Split List into seperated list
+ */
+fun <T> List<T>.split(predicate: (T) -> Boolean): List<List<T>> =
+    fold(mutableListOf(mutableListOf<T>())) { acc, t ->
+        if (predicate(t)) acc.add(mutableListOf())
+        else acc.last().add(t)
+        acc
+    }.filterNot { it.isEmpty() }
